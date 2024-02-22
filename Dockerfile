@@ -32,7 +32,9 @@ RUN dnf update -y -q && \
   openssl \
   ca-certificates \
   unzip \
-  git
+  git \
+  python3 \
+  python3-devel
 
 #RUN git clone https://github.com/opendatahub-io/ml-metadata.git /mlmd-src
 WORKDIR /mlmd-src

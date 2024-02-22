@@ -39,10 +39,13 @@ WORKDIR /mlmd-src
 COPY ${SOURCE_CODE} .
 
 ENV BAZEL_VERSION 5.3.0
+# I'd suggest to use exactly the same RPM you are using for your disconnected/offline build
 ENV BAZEL_LOCAL_RPM bazel-5.3.0-1.el8.x86_64.rpm
-RUN if [ -z ${BAZEL_LOCAL_RPM} ]; then \
+RUN if [ -f ${BAZEL_LOCAL_RPM} ]; then \
+       echo "Installing local bazel RPM.." && \
        dnf install -y -q bazel-5.3.0-1.el8.x86_64.rpm; \
     else \
+       echo "Downloading bazel.." && \
        mkdir /bazel && \
        cd /bazel && \
        curl -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36" -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh && \

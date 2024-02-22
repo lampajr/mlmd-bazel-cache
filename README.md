@@ -100,3 +100,15 @@ This is needed because `bazel` creates the `output_base` directory as the hash o
 > Note: see how `bazel` creates directories [here](https://bazel.build/remote/output-directories#layout-diagram)
 
 3. The `bazel` version _should_ be the same used in the disconnected environment, if using custom RPM I would suggest to inject and use that one.
+
+4. If you experience during the disconnected build:
+```bash
+0.236 Starting local Bazel server and connecting to it...
+1.577 Loading: 
+1.580 Loading: 0 packages loaded
+1.643 ERROR: no such package '@bazel_tools//tools/build_defs/repo': to fix, run
+1.643 	bazel fetch //...
+1.643 External repository @bazel_tools not found and fetching repositories is disabled.
+```
+This could mean that `_bazel_root/13c4dbfe298d1ad9f047b4ec78c9d429/external/bazel_tools` symlink is broken.
+Possible root cause is that the bazel extracted installation has different hash `/root/.cache/bazel/_bazel_root/install/<HASH>`
